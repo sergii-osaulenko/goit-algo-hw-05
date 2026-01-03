@@ -1,56 +1,66 @@
-class Node:
-    def __init__(self, key, value):
-        self.key = key
-        self.value = value
-        self.next = None
-
 class HashTable:
-    def __init__(self, capacity):
-        self.capacity = capacity
-        self.size = 0
-        self.table = [None] * capacity
+    def __init__(self, size):
+        self.size = size
+        # одразу ініціалізуємо списками для ланцюжків
+        self.table = [[] for _ in range(self.size)]
 
-    def _hash(self, key):
-        return hash(key) % self.capacity
+    def hash_function(self, key):
+        return hash(key) % self.size
 
     def insert(self, key, value):
-        index = self._hash(key)
-        if self.table[index] is None:
-            self.table[index] = Node(key, value)
-            self.size += 1
+        key_hash = self.hash_function(key)
+        key_value = [key, value]
+
+        # з таким конструктором bucket ніколи не None, тому цей if зайвий,
+        # але залишимо максимально близько до конспекту
+        if self.table[key_hash] is None:
+            self.table[key_hash] = [key_value]
+            return True
         else:
-            current = self.table[index]
-            while current:
-                if current.key == key:
-                    current.value = value
-                    return
-                current = current.next
-            new_node = Node(key, value)
-            new_node.next = self.table[index]
-            self.table[index] = new_node
-            self.size += 1
+            for pair in self.table[key_hash]:
+                if pair[0] == key:
+                    pair[1] = value
+                    return True
+            self.table[key_hash].append(key_value)
+            return True
 
-    def search(self, key):
-        index = self._hash(key)
-        current = self.table[index]
-        while current:
-            if current.key == key:
-                return current.value
-            current = current.next
-        raise KeyError(key)
+    def get(self, key):
+        key_hash = self.hash_function(key)
+        if self.table[key_hash] is not None:
+            for pair in self.table[key_hash]:
+                if pair[0] == key:
+                    return pair[1]
+        return None
 
-    def delete(self, key):  # Новий метод delete
-        index = self._hash(key)
-        previous = None
-        current = self.table[index]
-        while current:
-            if current.key == key:
-                if previous:
-                    previous.next = current.next
-                else:
-                    self.table[index] = current.next
-                self.size -= 1
-                return
-            previous = current
-            current = current.next
-        raise KeyError(key)
+    def delete(self, key):
+        """Видаляє пару ключ-значення; повертає True, якщо ключ знайдено і видалено, інакше False."""
+        key_hash = self.hash_function(key)
+        bucket = self.table[key_hash]
+
+        if bucket is None:
+            return False
+
+        for i, pair in enumerate(bucket):
+            if pair[0] == key:
+                del bucket[i]
+                return True
+
+        return False
+
+
+# Тест:
+if __name__ == "__main__":
+    H = HashTable(5)
+    H.insert("apple", 10)
+    H.insert("orange", 20)
+    H.insert("banana", 30)
+
+    print(H.get("apple"))   # 10
+    print(H.get("orange"))  # 20
+    print(H.get("banana"))  # 30
+
+    H.delete("orange")
+
+    print(H.get("apple"))   # 10
+    print(H.get("orange"))  # None
+    print(H.get("banana"))  # 30
