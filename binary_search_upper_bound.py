@@ -2,9 +2,8 @@ def binary_search_upper_bound(arr, target):
     """
     arr – відсортований список дробових чисел (по зростанню).
     target – значення, для якого шукаємо верхню межу.
-    Повертає (iterations, upper_bound), де
-    upper_bound – найменший елемент із arr, що >= target,
-    або None, якщо такого немає.
+    Повертає (iterations, upper_bound), де upper_bound – найменший елемент
+    із arr, що >= target, або None, якщо такого немає.
     """
     left, right = 0, len(arr) - 1
     upper_bound = None
