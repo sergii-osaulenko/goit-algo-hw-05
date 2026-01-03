@@ -1,7 +1,7 @@
 class HashTable:
     def __init__(self, size):
         self.size = size
-        # одразу ініціалізуємо списками для ланцюжків
+        # Одразу ініціалізуємо списками для ланцюжків
         self.table = [[] for _ in range(self.size)]
 
     def hash_function(self, key):
@@ -10,9 +10,9 @@ class HashTable:
     def insert(self, key, value):
         key_hash = self.hash_function(key)
         key_value = [key, value]
-
-        # з таким конструктором bucket ніколи не None, тому цей if зайвий,
-        # але залишимо максимально близько до конспекту
+        """
+        З таким конструктором bucket ніколи не None, тому цей if зайвий, але залишимо максимально близько до конспекту
+        """
         if self.table[key_hash] is None:
             self.table[key_hash] = [key_value]
             return True
