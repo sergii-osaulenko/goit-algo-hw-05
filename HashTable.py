@@ -1,7 +1,7 @@
 class HashTable:
     def __init__(self, size):
         self.size = size
-        # Одразу ініціалізуємо списками для ланцюжків
+        # Одразу ініціалізуємо списками для ланцюжків.
         self.table = [[] for _ in range(self.size)]
 
     def hash_function(self, key):
@@ -31,7 +31,7 @@ class HashTable:
         return None
 
     def delete(self, key):
-        # Видаляє пару ключ-значення, повертає True, якщо ключ знайдено і видалено, інакше False
+        # Видаляє пару ключ-значення, повертає True, якщо ключ знайдено і видалено, інакше False.
         key_hash = self.hash_function(key)
         bucket = self.table[key_hash]
 
