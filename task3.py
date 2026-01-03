@@ -5,7 +5,7 @@ def boyer_moore(text, pattern):
     if not pattern or not text:
         return -1
 
-    # побудова таблиці зсувів (bad character rule)
+    # Побудова таблиці зсувів (bad character rule).
     skip = {}
     m = len(pattern)
     for i in range(m - 1):
@@ -49,7 +49,7 @@ def kmp_search(text, pattern):
         return -1
 
     lps = kmp_build_lps(pattern)
-    i = j = 0  # i – індекс у text, j – у pattern
+    i = j = 0  # i – індекс у text, j – у pattern.
 
     while i < len(text):
         if text[i] == pattern[j]:
