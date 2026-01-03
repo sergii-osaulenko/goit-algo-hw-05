@@ -1,7 +1,7 @@
 class HashTable:
     def __init__(self, size):
         self.size = size
-        # Одразу ініціалізуємо списками для ланцюжків
+        # Одразу ініціалізуємо списками для ланцюжків.
         self.table = [[] for _ in range(self.size)]
 
     def hash_function(self, key):
@@ -10,9 +10,7 @@ class HashTable:
     def insert(self, key, value):
         key_hash = self.hash_function(key)
         key_value = [key, value]
-        """
-        З таким конструктором bucket ніколи не None, тому цей if зайвий, але залишимо максимально близько до конспекту
-        """
+
         if self.table[key_hash] is None:
             self.table[key_hash] = [key_value]
             return True
@@ -33,7 +31,7 @@ class HashTable:
         return None
 
     def delete(self, key):
-        """Видаляє пару ключ-значення; повертає True, якщо ключ знайдено і видалено, інакше False."""
+        # Видаляє пару ключ-значення, повертає True, якщо ключ знайдено і видалено, інакше False.
         key_hash = self.hash_function(key)
         bucket = self.table[key_hash]
 
